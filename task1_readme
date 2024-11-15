@@ -15,8 +15,11 @@ Part 2: Create github repository and test deployment
 2. Create a github account (if you don't have one yet) and create an empty repository. Look for the repository https URL.
 3. Make your local folder a git repository and connect it to the github repository (see Courseware)
 4. Commit and push your code
-5. Create an accout at streamlit.io and click on "Create app". Connect to your github account by following the instructions. Select app.py as the script to run and deploy your app.
-6. Voila! Streamlit should display a URL that you can use to access your app on the streamlit community server. This is not limited to you but everyone who knows this URL can. (So be careful what you include in your app)
+5. Create an accout at streamlit.io and click on "Create app".
+Connect to your github account by following the instructions.
+Select app.py as the script to run and deploy your app.
+6. Voila! Streamlit should display a URL that you can use to access your app on the streamlit community server.
+This is not limited to you but everyone who knows this URL can. (So be careful what you include in your app)
 
 Part 3: Start working on the task
 
@@ -27,7 +30,7 @@ Part 3: Start working on the task
 -- Now take care of the real guessing logic: a) Initialize a new goal if neccessary, b) Check if guess meets the goal, c) Provide feedback
 3. Create and update data structures for statistics and chat view (counting guesses, perhaps maintaining a history etc.)
 4. Transform your guessing and feedback interface to a chat interface (see https://docs.streamlit.io/develop/api-reference/chat ). Look at https://streamlit.io/generative-ai for a chat example (the OpenAI connection will only be made in part 2 of the task, just look at the overall structure and the data structures)
-5. Make your app a multipage app by creating a new file for the navigation (see https://docs.streamlit.io/develop/concepts/multipage-apps/page-and-navigation) and a dummy file for the statistics
+5. Make your app a multipage a  pp by creating a new file for the navigation (see https://docs.streamlit.io/develop/concepts/multipage-apps/page-and-navigation) and a dummy file for the statistics
 6. Add logic to the statistics file
 7. Test everything and, if happy, commit, push and deploy!
 
@@ -50,7 +53,8 @@ The app has at least two pages: "Play" and "Stats"
 
 "Play" page:
 
-- The "Play" page features a guessing game in which the user guesses something and the app evaluates guesses, giving hints and checking whether the guessing goal was found.
+- The "Play" page features a guessing game in which the user guesses something and the app evaluates guesses,
+ giving hints and checking whether the guessing goal was found.
 - The guessing game uses Streamlit's chat component.
 
 "Stats" page:
