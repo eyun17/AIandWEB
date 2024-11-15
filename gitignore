@@ -142,6 +142,10 @@ myenv.bak/
 # mkdocs documentation
 /site
 
+# JetBrains IDEs
+.idea/
+*.iml
+
 # mypy
 .mypy_cache/
 .dmypy.json
