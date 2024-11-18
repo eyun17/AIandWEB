@@ -2,19 +2,6 @@ import streamlit as st
 import pandas as pd
 
 st.title("Game Statistics")
-"""
-# Check if stats are available
-if "guess_count" in st.session_state:
-    st.write(f"Total Guesses: {st.session_state.guess_count}")
-    st.write("Guess History:", st.session_state.guess_history)
-
-    # Example: Average guesses (if you’re adding more rounds or resetting)
-    if st.session_state.guess_count > 0:
-        average_guess = sum(st.session_state.guess_history) / st.session_state.guess_count
-        st.write(f"Average Guess: {average_guess:.2f}")
-else:
-    st.write("No statistics available. Start a game to see stats.")
-"""
 
 # Check if there are any recorded games
 if "guesses_per_game" in st.session_state and st.session_state.guesses_per_game:
