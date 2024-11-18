@@ -3,20 +3,31 @@ import random
 import datetime
 import time
 
-
 # Set up a title for the main page
 st.title("Welcome to the Guessing Game App")
 
-# Sidebar custom navigation
-st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to:", ["Home", "Play Game", "Statistics"])
+# Check if the 'game_user' is set in session state
+if 'game_user' not in st.session_state:
+    st.session_state.game_user = None
 
-# Navigate to the selected page
-if page == "Home":
-    st.write("Welcome to the Guessing Game! Choose a page to get started.")
-elif page == "Play Game":
-    st.session_state.current_page = "pages/2_🕹_play.py"
-    st.rerun()
-elif page == "Statistics":
-    st.session_state.current_page = "pages/3_📊_stats.py"
-    st.rerun()
+if st.session_state.game_user is None:
+    # If the user is not set, ask for their name
+    st.title("Welcome to the Guessing Game!")
+    st.write("Please enter your name to start playing.")
+
+    # Input field for the user's name
+    user_name = st.text_input("Enter your name", key="name_input")
+
+    # Button to confirm the name
+    if st.button("Start Game"):
+        if user_name:
+            # Save the name to session state
+            st.session_state.game_user = user_name
+            st.success(f"Welcome, {st.session_state.game_user}! Let's start playing!")
+        else:
+            st.error("Please enter a right name to proceed.")
+else:
+    # Now that the user has entered their name, show the available pages
+    st.title(f"Hello, {st.session_state.game_user}!")
+    st.write("You can now access the game pages using the navigation sidebar.")
+
