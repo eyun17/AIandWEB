@@ -3,6 +3,15 @@ import random
 
 st.title(f"Hi! {st.session_state.game_user}! Here we are playing the guessing game")
 
+if st.button("Reset Username"):
+    # Remove current user's data from user_stats
+    if st.session_state.game_user in st.session_state.user_stats:
+        del st.session_state.user_stats[st.session_state.game_user]
+
+    # Clear the active username
+    st.session_state.game_user = None
+    st.rerun()  # Refresh the app to go back to the username input screen
+
 # Initialize session variables if not already done
 if "secret_number" not in st.session_state:
     st.session_state.secret_number = random.randint(0, 100)
