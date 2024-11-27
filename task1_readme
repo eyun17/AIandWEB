@@ -78,7 +78,7 @@ Additional requirements  I (max. 15% of points):
 Implement the following improvements:
 
 The guessing game involves natural language processed by a LLM (Open AI key is provided), e.g. an animal guessing game with yes/no answers
-The game is interesting to play and the evaluation works correct for he vast majority of cases
+The game is interesting to play and the evaluation works correct for the vast majority of cases
 
 Additional requirements II (max. 15 of points):
 -----------------------------------------------
@@ -86,5 +86,5 @@ Additional requirements II (max. 15 of points):
 Implement the following improvements:
 
 The app is able to estimate the quality of guesses
-The estimated guessing qualiy if presented on the stats page in an interesting and transparent way to the user
+The estimated guessing quality if presented on the stats page in an interesting and transparent way to the user
 
