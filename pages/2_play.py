@@ -4,6 +4,11 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 
+st.set_page_config(
+    page_title="Animal Guessing Game",
+    page_icon="🕹️",
+)
+
 # Load environment variables from the .env file
 load_dotenv()
 
@@ -24,6 +29,21 @@ def get_llm_response(prompt):
         max_tokens=100
     )
     return response.choices[0].text.strip()
+
+
+# Function to choose a random animal using OpenAI
+def choose_random_animal():
+    prompt = "Please give me the name of any animal."
+
+    response = get_llm_response(prompt)
+
+    # A simple validation to check if the response seems like a valid animal
+    if response and isinstance(response, str):
+        return response.strip()
+    else:
+        return random.choice(
+            ["cat", "dog", "elephant", "lion", "tiger", "giraffe", "zebra", "kangaroo", "panda",
+             "wolf", "bunny", "rabbit"])  # Fallback animals
 
 
 # Function to initialize and play the game
@@ -65,3 +85,6 @@ def start_game():
             if st.button("Start a New Game"):
                 st.session_state.game_started = False
                 st.session_state.chat_history = []
+                st.rerun()
+
+start_game()
