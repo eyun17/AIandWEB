@@ -10,8 +10,6 @@ if "user_stats" not in st.session_state:
 # Input for user name
 user_name = st.text_input("Enter your name to view your stats:", key="user_stats_input")
 
-
-
 if user_name:
     # Ensure stats exist for the entered user
     if user_name not in st.session_state.user_stats:

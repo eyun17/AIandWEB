@@ -1,62 +1,67 @@
 import streamlit as st
 import random
+from openai import OpenAI
+from dotenv import load_dotenv
+import os
 
-st.title(f"Hi! {st.session_state.game_user}! Here we are playing the guessing game")
+# Load environment variables from the .env file
+load_dotenv()
 
-if st.button("Reset Username"):
-    # Remove current user's data from user_stats
-    if st.session_state.game_user in st.session_state.user_stats:
-        del st.session_state.user_stats[st.session_state.game_user]
+# Retrieve the OpenAI API key from the environment variables
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
-    # Clear the active username
-    st.session_state.game_user = None
-    st.rerun()  # Refresh the app to go back to the username input screen
+client = OpenAI(api_key=openai_api_key)
 
-# Initialize session variables if not already done
-if "secret_number" not in st.session_state:
-    st.session_state.secret_number = random.randint(0, 100)
-if "games_played" not in st.session_state:
-    st.session_state.games_played = 0
-if "guess_count" not in st.session_state:
-    st.session_state.guess_count = 0
-if "guesses_per_game" not in st.session_state:
-    st.session_state.guesses_per_game = []
-if "user_guess" not in st.session_state:
-    st.session_state.user_guess = 0
-if "guess_history" not in st.session_state:
-    st.session_state.guess_history = []
+st.title(f"Hi! {st.session_state.game_user}! Here we are playing the animal guessing game!")
+st.write("I am thinking of an animal, and you will ask me questions to guess it. "
+         "I can only answer with 'yes' or 'no'.")
+
+# Function to interact with LLM for the animal guessing game
+def get_llm_response(prompt):
+    response = client.Completion.create(
+        engine="gpt-4o-mini",
+        prompt=prompt,
+        max_tokens=100
+    )
+    return response.choices[0].text.strip()
 
 
-# Get user input
-user_guess = st.number_input("Pick a number between 0 and 100", 0, 100, st.session_state.user_guess)
-submit = st.button("Submit")
+# Function to initialize and play the game
+def start_game():
+    # Initialize the game if it hasn't started
+    if "game_started" not in st.session_state:
+        st.session_state.game_started = True
+        st.session_state.chat_history = []
+        st.session_state.animal = random.choice(
+            ["cat", "dog", "elephant", "lion", "tiger"])  # Random animal for this game
 
-if submit:
-    st.write("You entered:", user_guess)
-    # Update session variables
-    st.session_state.guess_count += 1
-    # Track each guess in guess history with game number and guess count
-    st.session_state.guess_history.append({
-        "user_name": st.session_state.game_user,
-        "game_number": st.session_state.games_played + 1,
-        "secret_number": st.session_state.secret_number,
-        "guess_number": st.session_state.guess_count,
-        "guess": user_guess
-    })
+    # Introduction to the game
+    st.title("Animal Guessing Game")
+    st.write("I am thinking of an animal, and you will try to guess it!")
 
-    # Check if guess is correct
-    if user_guess == st.session_state.secret_number:
-        # Save the number of guesses for this game
-        st.session_state.guesses_per_game.append(st.session_state.guess_count)
-        # Increment games played
-        st.session_state.games_played += 1
+    # Displaying chat history
+    for msg in st.session_state.chat_history:
+        st.chat_message(msg["role"]).markdown(msg["message"])
 
-        # Reset for the next game
-        st.session_state.guess_count = 0
-        # New Secret Number
-        st.session_state.secret_number = random.randint(0, 100)
-        st.write("🎉 You guessed it!")
-    elif user_guess < st.session_state.secret_number:
-        st.write("Try a higher number")
-    else:
-        st.write("Try a lower number")
+    # User input for guessing the animal
+    user_guess = st.text_input("What is your guess? (Type the animal name)", key="user_name_input")
+
+    if user_guess:
+        # AI responds with 'yes' or 'no'
+        if user_guess.lower() == st.session_state.animal.lower():
+            ai_response = "Yes, that's correct! Well done!"
+        else:
+            ai_response = "No, that's not correct. Try again!"
+
+        # Append the user guess and AI response to the chat history
+        st.session_state.chat_history.append({"role": "user", "message": f"Is it a {user_guess}?"})
+        st.session_state.chat_history.append({"role": "assistant", "message": ai_response})
+
+        # Display AI response
+        st.chat_message("assistant").markdown(ai_response)
+
+        # Option to start a new game
+        if ai_response.startswith("Yes"):
+            if st.button("Start a New Game"):
+                st.session_state.game_started = False
+                st.session_state.chat_history = []
