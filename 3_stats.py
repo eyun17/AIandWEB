@@ -81,4 +81,4 @@ if user_name:
     else:
         st.write(f"No games played yet for {user_name}.")
 else:
-    st.write("Please enter a name to view statistics."
+    st.write("Please enter a name to view statistics.")
